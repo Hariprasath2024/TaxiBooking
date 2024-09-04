@@ -56,28 +56,28 @@ export class BookingComponent {
     }
   }
 
-  updateBookingStatus(bookingID: number, newStatus: string) {
-    if (this.dataForm.valid) {
-      const formData: Booking = this.dataForm.value as Booking;
-      formData.status = newStatus; // Modify the status
-      console.log('Form Data for Status Update:', formData);
+  // updateBookingStatus(bookingID: number, newStatus: string) {
+  //   if (this.dataForm.valid) {
+  //     const formData: Booking = this.dataForm.value as Booking;
+  //     formData.status = newStatus; // Modify the status
+  //     console.log('Form Data for Status Update:', formData);
 
-      this.http.put(`https://localhost:7227/api/Bookings/${bookingID}`, formData).subscribe({
-        next: () => {
-          console.log('Booking status updated successfully');
-          this.dataForm.reset();
-          this.currentBookingID = null; // Reset the currentBookingID
-          this.Book$ = this.getBooking(); // Refresh the list
-        },
-        error: (error: any) => {
-          console.error('Error updating booking status:', error);
-        },
-        complete: () => {
-          console.log('Request completed');
-        }
-      });
-    }
-  }
+  //     this.http.put(`https://localhost:7227/api/Bookings/${bookingID}`, formData).subscribe({
+  //       next: () => {
+  //         console.log('Booking status updated successfully');
+  //         this.dataForm.reset();
+  //         this.currentBookingID = null; // Reset the currentBookingID
+  //         this.Book$ = this.getBooking(); // Refresh the list
+  //       },
+  //       error: (error: any) => {
+  //         console.error('Error updating booking status:', error);
+  //       },
+  //       complete: () => {
+  //         console.log('Request completed');
+  //       }
+  //     });
+  //   }
+  // }
 
   deleteBooking(bookingID: number) {
     this.http.delete(`https://localhost:7227/api/Bookings/${bookingID}`).subscribe({

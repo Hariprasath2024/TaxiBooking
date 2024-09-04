@@ -47,9 +47,19 @@
   
     <!-- Submit Button -->
     <div>
-      <button type="submit" [disabled]="!dataForm.valid" class="w-full bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-500">
-        {{ currentBookingID ? 'Update Booking' : 'Create Booking' }}
-      </button>
+     <!-- Submit button (visible when currentBookingID is null, indicating creation of a new booking) -->
+<button *ngIf="!currentBookingID" type="submit" [disabled]="!dataForm.valid" 
+class="w-full bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-500">
+Create Booking
+</button>
+
+<!-- Update button (visible when currentBookingID has a value, indicating editing of an existing booking) -->
+<button *ngIf="currentBookingID" type="button" 
+(click)="updateBooking(currentBookingID)" 
+class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+Update Booking
+</button>
+
     </div>
   </form>
   
