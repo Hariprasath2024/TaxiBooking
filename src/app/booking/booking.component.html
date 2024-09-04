@@ -1,0 +1,90 @@
+<!-- Booking Form -->
+<form [formGroup]="dataForm" (ngSubmit)="onSubmit()" class="p-8 bg-gray-900 rounded-lg shadow-lg">
+    <h1 class="text-center text-green-400 text-3xl font-semibold mb-6">
+      {{ currentBookingID ? 'Update Booking' : 'Create Booking' }}
+    </h1>
+  
+    <!-- Form Fields -->
+    <div class="mb-6">
+      <label for="UserID" class="block text-gray-400 font-medium mb-2">User ID (Customer)</label>
+      <input id="UserID" formControlName="UserID" type="number" placeholder="Enter User ID" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="TaxiID" class="block text-gray-400 font-medium mb-2">Taxi ID (TaxiOwner)</label>
+      <input id="TaxiID" formControlName="TaxiID" type="number" placeholder="Enter Taxi ID" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="CustomerName" class="block text-gray-400 font-medium mb-2">Customer Name</label>
+      <input id="CustomerName" formControlName="CustomerName" type="text" placeholder="Enter Customer Name" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="DriverName" class="block text-gray-400 font-medium mb-2">Driver Name</label>
+      <input id="DriverName" formControlName="DriverName" type="text" placeholder="Enter Driver Name" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="PickupLocation" class="block text-gray-400 font-medium mb-2">Pickup Location</label>
+      <input id="PickupLocation" formControlName="PickupLocation" type="text" placeholder="Enter Pickup Location" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="DropoffLocation" class="block text-gray-400 font-medium mb-2">Dropoff Location</label>
+      <input id="DropoffLocation" formControlName="DropoffLocation" type="text" placeholder="Enter Dropoff Location" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="BookingTime" class="block text-gray-400 font-medium mb-2">Booking Time</label>
+      <input id="BookingTime" formControlName="BookingTime" type="datetime-local" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <div class="mb-6">
+      <label for="Status" class="block text-gray-400 font-medium mb-2">Status</label>
+      <input id="Status" formControlName="Status" type="text" placeholder="Enter Status" class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm">
+    </div>
+  
+    <!-- Submit Button -->
+    <div>
+      <button type="submit" [disabled]="!dataForm.valid" class="w-full bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-500">
+        {{ currentBookingID ? 'Update Booking' : 'Create Booking' }}
+      </button>
+    </div>
+  </form>
+  
+  <!-- Bookings List -->
+  <div class="container mx-auto mt-8">
+    <div class="p-6 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+      <ng-container *ngIf="(Book$ | async) as books">
+        <ng-container *ngIf="books.length > 0; else noData">
+          <p class="text-3xl font-bold text-gray-100 mb-6 text-center">Booking List</p>
+          <ul class="space-y-4">
+            <li *ngFor="let item of books; trackBy: trackByFn">
+              <div class="bg-gray-700 border border-gray-600 rounded-lg p-4 shadow-md">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 text-white">
+                    <p class="text-md font-semibold">{{ item.customerName }}</p>
+                  </div>
+                  <div class="flex-1 text-gray-300">
+                    <p class="text-md">{{ item.driverName }}</p>
+                  </div>
+                  <div class="flex-1 text-gray-400">
+                    <p class="text-md">{{ item.pickupLocation }}</p>
+                  </div>
+                  <div class="flex-1">
+                    <!-- <button (click)="viewDetails(item)" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">View Details</button> -->
+                    <button (click)="editBooking(item)" class="bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Edit</button>
+                    <button (click)="confirmDelete(item.bookingID)" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #noData>
+          <p class="text-gray-400 text-center">No Bookings Available</p>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>

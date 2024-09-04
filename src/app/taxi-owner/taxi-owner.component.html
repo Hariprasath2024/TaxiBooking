@@ -1,0 +1,86 @@
+<div class="container mx-auto p-8 mt-10">
+  <h2 class="text-center text-green-400 text-3xl font-semibold mb-6">Create Taxi Owner</h2>
+  <form [formGroup]="taxiOwnerForm" (ngSubmit)="onSubmit()" class="bg-gray-900 rounded-lg shadow-lg p-8">
+      <div class="mb-6">
+          <label for="taxiOwnerID" class="block text-gray-400 font-medium mb-2">Taxi Owner ID</label>
+          <input id="taxiOwnerID" formControlName="taxiOwnerID" type="number" placeholder="Enter Taxi Owner ID"
+              class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" />
+      </div>
+
+      <div class="mb-6">
+          <label for="driverName" class="block text-gray-400 font-medium mb-2">Driver Name</label>
+          <input id="driverName" formControlName="driverName" type="text" placeholder="Enter Driver Name"
+              class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" />
+      </div>
+
+      <div class="mb-6">
+          <label for="carModel" class="block text-gray-400 font-medium mb-2">Car Model</label>
+          <input id="carModel" formControlName="carModel" type="text" placeholder="Enter Car Model"
+              class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" />
+      </div>
+
+      <div class="mb-6">
+          <label for="carNumber" class="block text-gray-400 font-medium mb-2">Car Number</label>
+          <input id="carNumber" formControlName="carNumber" type="text" placeholder="Enter Car Number"
+              class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" />
+      </div>
+
+      <div class="mb-6">
+          <label for="phone" class="block text-gray-400 font-medium mb-2">Phone</label>
+          <input id="phone" formControlName="phone" type="text" placeholder="Enter Phone"
+              class="w-full px-4 py-3 bg-gray-800 text-gray-300 border border-gray-700 rounded-lg focus:ring-green-500 focus:border-green-500 shadow-sm" />
+      </div>
+
+      <div>
+          <button type="submit" [disabled]="!taxiOwnerForm.valid"
+              class="w-full bg-green-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-500">
+              Submit
+          </button>
+      </div>
+  </form>
+</div>
+
+<div class="container mx-auto mt-8">
+  <div class="p-6 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+      <ng-container *ngIf="(TaxiOwner$ | async) as taxiOwners">
+          <ng-container *ngIf="taxiOwners.length > 0; else noTaxiOwner">
+              <p class="text-3xl font-bold text-gray-100 mb-6 text-center">Taxi Owner List</p>
+              <ul class="space-y-4">
+                  <li *ngFor="let item of taxiOwners; trackBy: trackByFn">
+                      <div class="bg-gray-700 border border-gray-600 rounded-lg p-4 shadow-md">
+                          <div class="flex items-center space-x-4">
+                              <div class="flex-1 text-white">
+                                  <p class="text-md font-semibold">ID: {{ item.taxiOwnerID }}</p>
+                              </div>
+                              <div class="flex-1 text-gray-300">
+                                  <p class="text-md">Driver Name: {{ item.driverName }}</p>
+                              </div>
+                              <div class="flex-1 text-gray-300">
+                                  <p class="text-md">Car Model: {{ item.carModel }}</p>
+                              </div>
+                              <div class="flex-1 text-gray-300">
+                                  <p class="text-md">Car Number: {{ item.carNumber }}</p>
+                              </div>
+                              <div class="flex-1 text-gray-400">
+                                  <p class="text-md">Phone: {{ item.phone }}</p>
+                              </div>
+                              <!-- Uncomment the following buttons if edit and delete functionalities are needed -->
+                              <!--
+                              <div class="flex-1">
+                                  <button (click)="editTaxiOwner(item)"
+                                      class="bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">Edit</button>
+                                  <button (click)="confirmDelete(item.taxiOwnerID)"
+                                      class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
+                              </div>
+                              -->
+                          </div>
+                      </div>
+                  </li>
+              </ul>
+          </ng-container>
+          <ng-template #noTaxiOwner>
+              <p class="text-gray-400 text-center">No Taxi Owners Available</p>
+          </ng-template>
+      </ng-container>
+  </div>
+</div>
